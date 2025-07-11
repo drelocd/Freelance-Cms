@@ -94,4 +94,76 @@ document.addEventListener('DOMContentLoaded', () => {
             spotlight.style.webkitClipPath = 'none';
         });
     });
+// --- Contact Form Submission Logic to use PHP Proxy ---
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    // !!! IMPORTANT: This is the URL to your PHP proxy script, NOT the Discord webhook itself !!!
+    const PHP_PROXY_URL = 'send_discord.php'; // Adjust path if send_discord.php is in a subfolder
+    // Example: const PHP_PROXY_URL = '/api/send_discord.php';
+    // !!! END IMPORTANT !!!
+
+    if (contactForm && formStatus) {
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            formStatus.textContent = 'Sending message...';
+            formStatus.style.color = 'var(--text-dark)';
+
+            // Get form field values
+            const name = document.getElementById('name')?.value.trim();
+            const email = document.getElementById('email')?.value.trim();
+            const subject = document.getElementById('subject')?.value.trim();
+            const message = document.getElementById('message')?.value.trim();
+
+            // Client-side validation: Check if required fields exist and are not empty
+            if (!name || !email || !message) {
+                formStatus.textContent = 'Please fill in all required fields (Name, Email, Message).';
+                formStatus.style.color = 'salmon';
+                return;
+            }
+
+            // Prepare data to send to your PHP script
+            const formData = {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            };
+
+            try {
+                // Send the data to your PHP proxy script
+                const response = await fetch(PHP_PROXY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Tell PHP we're sending JSON
+                    },
+                    body: JSON.stringify(formData) // Convert JS object to JSON string
+                });
+
+                const result = await response.json(); // PHP script will return JSON
+
+                if (response.ok && result.success) { // Check both HTTP status and PHP success flag
+                    formStatus.textContent = 'Message sent successfully! Redirecting...';
+                    formStatus.style.color = 'lightgreen';
+                    contactForm.reset(); // Clear the form fields
+
+                    setTimeout(() => {
+                        window.location.href = '#hero';
+                    }, 1500);
+                } else {
+                    // Handle server-side errors or failed API calls from PHP
+                    console.error('Server Error:', result.message || 'Unknown server error');
+                    formStatus.textContent = `Error: ${result.message || 'Something went wrong on the server.'}`;
+                    formStatus.style.color = 'salmon';
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                formStatus.textContent = 'An unexpected network error occurred. Please try again.';
+                formStatus.style.color = 'salmon';
+            }
+        });
+    } else {
+        console.warn("Contact form or form status element not found. Contact form submission will not work.");
+    }
 });
