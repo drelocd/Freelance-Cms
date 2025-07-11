@@ -6,6 +6,7 @@
     <title>FreelancerX Cms - High Visual Appeal</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div class="preloader" id="preloader">
@@ -116,18 +117,25 @@
             <div class="container">
                 <h3>Get in Touch</h3>
                 <p>Ready to start your project? Feel free to reach out!</p>
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <input type="text" placeholder="Subject">
-                    <textarea placeholder="Your Message" rows="6"></textarea>
+                <form class="contact-form" id="contactForm">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="email" id="email" placeholder="Your Email" required>
+                    <input type="text" id="subject" placeholder="Subject">
+                    <textarea id="message" placeholder="Your Message" rows="6"></textarea>
                     <button type="submit" class="btn btn-primary">Send Message</button>
+                    <div id="formStatus" style="margin-top: 15px; color: var(--text-light);"></div>
                 </form>
                 <div class="social-links">
-                    <a href="#" aria-label="LinkedIn"><img src="https://via.placeholder.com/30x30?text=LI" alt="LinkedIn"></a>
-                    <a href="#" aria-label="Dribbble"><img src="https://via.placeholder.com/30x30?text=DR" alt="Dribbble"></a>
-                    <a href="#" aria-label="Behance"><img src="https://via.placeholder.com/30x30?text=BE" alt="Behance"></a>
-                </div>
+    <a href="" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-linkedin"></i>
+    </a>
+    <a href="" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-discord"></i>
+    </a>
+    <a href="" aria-label="Github" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-github"></i>
+    </a>
+</div>
             </div>
         </section>
     </main>
